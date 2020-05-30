@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">testcsv</string>
+    <string name="signin"><u>Log in</u></string>
+    <string name="signup"><u>Sign up</u></string>
+</resources>
