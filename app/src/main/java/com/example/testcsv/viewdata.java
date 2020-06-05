@@ -20,5 +20,9 @@ public class viewdata extends AppCompatActivity {
         Intent i = new Intent(this,registration.class);
         startActivity(i);
     }
+    public void registerLIST(View view){
+        Intent i = new Intent(this,AllUsers.class);
+        startActivity(i);
+    }
 
 }

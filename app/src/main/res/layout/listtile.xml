@@ -6,32 +6,33 @@
     android:padding="5dip" >
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/mname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Rahul"
+        android:textColor="#FFFFFF"
         android:textSize="17dp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/email"
+        android:id="@+id/memail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name"
+        android:layout_below="@id/mname"
         android:layout_marginTop="7dp"
         android:text="rdg042000@gmail.com"
-        android:textColor="#343434"
+        android:textColor="#FFFFFF"
         android:textSize="14dp" />
 
     <TextView
-        android:id="@+id/phone"
+        android:id="@+id/mphone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/email"
-        android:layout_alignBottom="@+id/email"
+        android:layout_alignBaseline="@+id/memail"
+        android:layout_alignBottom="@+id/memail"
         android:layout_alignParentRight="true"
         android:text="7351165156"
-        android:textColor="#343434"
+        android:textColor="#FFFFFF"
         android:textSize="14dp" />
 
 </RelativeLayout>
