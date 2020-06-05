@@ -145,7 +145,7 @@
                 android:background="@color/cyan"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:onClick="main_sign_up"
+                android:onClick="nullCheck"
                 android:text="Sign up"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />

@@ -181,14 +181,28 @@ public class MainActivity extends AppCompatActivity{
      }
      }
 **/
-    public void main_sign_up(View view) {
+    public void nullCheck(View view){
         Context context = this;
-        myDbHelper db = new myDbHelper(context);
         EditText name = (EditText)findViewById(R.id.name);
         EditText email = (EditText)findViewById(R.id.email);
         EditText phone = (EditText)findViewById(R.id.phone);
         EditText password =(EditText) findViewById(R.id.password);
-        bmp = DbBitmapUtility.getResizedBitmap(bmp,500);
+        if(!name.getText().toString().isEmpty() ||!email.getText().toString().isEmpty()||!phone.getText().toString().isEmpty()||!password.getText().toString().isEmpty()){
+            if(bmp!=null){
+                main_sign_up(name,email,phone,password,bmp);
+            }else{
+                Toast.makeText(context, "Please select an image ", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+
+            Toast.makeText(context, "Please Fill all fields", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+    public void main_sign_up(EditText name,EditText email,EditText phone,EditText password, Bitmap image) {
+        Context context = this;
+        myDbHelper db = new myDbHelper(context);
+        bmp = DbBitmapUtility.getResizedBitmap(image,500);
         User user = new User(name.getText().toString(),email.getText().toString(),phone.getText().toString(),password.getText().toString(),DbBitmapUtility.getBytes(bmp));
         SQLiteDatabase database = db.getWritableDatabase();
         ContentValues cv = new ContentValues();
