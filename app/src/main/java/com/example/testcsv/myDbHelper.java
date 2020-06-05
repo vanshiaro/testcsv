@@ -1,11 +1,15 @@
 package com.example.testcsv;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class myDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "SmartHouse";
@@ -28,9 +32,22 @@ public class myDbHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_Version);
         this.context = context;
     }
-
+    public ArrayList<HashMap<String, String>> GetUsers(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<HashMap<String, String>> userList = new ArrayList<>();
+        String query = "SELECT Name, Email, Phone FROM "+ TABLE_NAME;
+        Cursor cursor = db.rawQuery(query,null);
+        while (cursor.moveToNext()){
+            HashMap<String,String> user = new HashMap<>();
+            user.put("name",cursor.getString(cursor.getColumnIndex(NAME)));
+            user.put("email",cursor.getString(cursor.getColumnIndex(EMAIL)));
+            user.put("phone",cursor.getString(cursor.getColumnIndex(PHONE)));
+            userList.add(user);
+        }
+        return  userList;
+    }
     public void onCreate(SQLiteDatabase db) {
-        Log.d("DB LOC",context.getDatabasePath(DATABASE_NAME).toString());
+        Log.d("DB LOC",context.getDatabasePath(DATABASE_NAME).getAbsolutePath());
         try {
             db.execSQL(CREATE_TABLE);
         } catch (Exception e) {
