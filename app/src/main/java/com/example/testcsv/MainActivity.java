@@ -1,20 +1,25 @@
 package com.example.testcsv;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +44,7 @@ public class MainActivity extends AppCompatActivity{
     //MyAdapater helper;
     private ImageView upload;
     //EditText updateold,updatenew,delete;
+    Bitmap bmp = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +181,35 @@ public class MainActivity extends AppCompatActivity{
      }
      }
 **/
+    public void main_sign_up(View view) {
+        Context context = this;
+        myDbHelper db = new myDbHelper(context);
+        EditText name = (EditText)findViewById(R.id.name);
+        EditText email = (EditText)findViewById(R.id.email);
+        EditText phone = (EditText)findViewById(R.id.phone);
+        EditText password =(EditText) findViewById(R.id.password);
+        bmp = DbBitmapUtility.getResizedBitmap(bmp,500);
+        User user = new User(name.getText().toString(),email.getText().toString(),phone.getText().toString(),password.getText().toString(),DbBitmapUtility.getBytes(bmp));
+        SQLiteDatabase database = db.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(myDbHelper.NAME,    user.getName());
+        cv.put(myDbHelper.EMAIL,   user.getEmail());
+        cv.put(myDbHelper.PHONE,user.getPhone());
+        cv.put(myDbHelper.IMAGE,user.getImage());
+        cv.put(myDbHelper.PASSWORD,user.getPassword());
+        long rowid =   database.insert(myDbHelper.TABLE_NAME, null, cv );
+        database.close();
+        if(rowid==-1){
+            Log.d("DBWrite", "Failure");
+            Toast.makeText(context, "Sign Up Failed", Toast.LENGTH_SHORT).show();
+        }else{
+            Log.d("DBWrite", "Success");
+            Toast.makeText(context, "Sign UP Success", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this,signin.class);
+            startActivity(i);
+        }
+
+    }
 
         public void sign_in (View v){
             Intent i = new Intent(this, signin.class);
@@ -229,7 +264,6 @@ public class MainActivity extends AppCompatActivity{
                                 cursor.moveToFirst();
                                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                                 String picturePath = cursor.getString(columnIndex);
-                                Bitmap bmp = null;
                                 try {
                                     bmp = getBitmapFromUri(selectedImage);
                                 } catch (IOException e) {

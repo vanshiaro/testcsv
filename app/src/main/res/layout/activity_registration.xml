@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_login"
-    tools:context=".MainActivity">
+    tools:context=".registration">
 
     <TextView
         android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
                 android:textSize="25sp"
                 android:text="Please enter your member's info" />
             <ImageView
-                android:id="@+id/photo1"
+                android:id="@+id/rmemphoto"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="20dp"
@@ -60,11 +60,11 @@
                 android:adjustViewBounds="true"
                 />
             <EditText
-                android:id="@+id/edit_text1"
+                android:id="@+id/rmemname"
                 android:autofillHints="username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/photo1"
+                android:layout_below="@+id/rmemphoto"
                 android:layout_marginTop="20dp"
                 android:textColor="#000000"
                 android:background="#fff"
@@ -76,11 +76,11 @@
 
                 />
             <EditText
-                android:id="@+id/edit_text2"
+                android:id="@+id/rmememail"
                 android:autofillHints="email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/edit_text1"
+                android:layout_below="@+id/rmemname"
                 android:layout_marginTop="20dp"
                 android:textColor="#000000"
                 android:fontFamily="sans-serif"
@@ -91,11 +91,11 @@
                 android:padding="10dp"
                 />
             <EditText
-                android:id="@+id/edit_text3"
+                android:id="@+id/rmemphone"
                 android:autofillHints="phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/edit_text2"
+                android:layout_below="@+id/rmememail"
                 android:fontFamily="sans-serif"
                 android:layout_marginTop="20dp"
                 android:textColor="#000000"
@@ -106,11 +106,11 @@
                 android:hint="Enter member's phone number"
                 />
             <EditText
-                android:id="@+id/edit_text4"
+                android:id="@+id/rmempassword"
                 android:autofillHints="password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/edit_text3"
+                android:layout_below="@+id/rmemphone"
                 android:fontFamily="sans-serif"
                 android:layout_marginTop="20dp"
                 android:textColor="#000000"
@@ -125,16 +125,16 @@
                 android:id="@+id/register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/rmempassword"
+                android:layout_marginTop="30dp"
                 android:background="@color/cyan"
-                android:text="Register"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:layout_marginTop="30dp"
-                android:layout_below="@+id/edit_text4"
+                android:onClick="nullCheck"
+                android:text="Register"
+                android:textAllCaps="false"
 
-                />
+                android:textColor="@color/white" />
 
         </RelativeLayout>
 

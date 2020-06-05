@@ -24,7 +24,7 @@ public class DashBoard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
-        Button button = (Button)findViewById(R.id.button1) ;
+        Button button = (Button)findViewById(R.id.viewdata) ;
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -32,6 +32,7 @@ public class DashBoard extends AppCompatActivity {
 
             }
         });
+
         Intent i = getIntent();
         User user = (User)i.getSerializableExtra("User");
         TextView dbid = (TextView)findViewById(R.id.dbid);

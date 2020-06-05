@@ -1,17 +1,22 @@
 package com.example.testcsv;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,22 +25,70 @@ import java.io.FileDescriptor;
 import java.io.IOException;
 
 public class registration extends AppCompatActivity {
-    private ImageView upload;
+    private ImageView rmemupload;
+    Bitmap rmembmp = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        upload = (ImageView)findViewById(R.id.photo1);
+        rmemupload = (ImageView)findViewById(R.id.rmemphoto);
         final Context context = this;
         // helper = new MyAdapater(this);
-        upload.setOnClickListener(new View.OnClickListener() {
+        rmemupload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectphoto(context);
             }
         });
     }
+    public void nullCheck(View view){
+        Context context = this;
+        EditText name = (EditText)findViewById(R.id.rmemname);
+        EditText email = (EditText)findViewById(R.id.rmememail);
+        EditText phone = (EditText)findViewById(R.id.rmemphone);
+        EditText password =(EditText) findViewById(R.id.rmempassword);
+        if(!name.getText().toString().isEmpty() ||!email.getText().toString().isEmpty()||!phone.getText().toString().isEmpty()||!password.getText().toString().isEmpty()){
+            if(rmembmp!=null){
+                RegisterMember(name,email,phone,password,rmembmp);
+            }else{
+                Toast.makeText(context, "Please select an image ", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+
+            Toast.makeText(context, "Please Fill all fields", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+    public void RegisterMember(EditText name,EditText email,EditText phone,EditText password, Bitmap image) {
+        Context context = this;
+        myDbHelper db = new myDbHelper(context);
+        rmembmp = DbBitmapUtility.getResizedBitmap(image,500);
+        User user = new User(name.getText().toString(),email.getText().toString(),phone.getText().toString(),password.getText().toString(),DbBitmapUtility.getBytes(rmembmp));
+        SQLiteDatabase database = db.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(myDbHelper.NAME,    user.getName());
+        cv.put(myDbHelper.EMAIL,   user.getEmail());
+        cv.put(myDbHelper.PHONE,user.getPhone());
+        cv.put(myDbHelper.IMAGE,user.getImage());
+        cv.put(myDbHelper.PASSWORD,user.getPassword());
+        long rowid =   database.insert(myDbHelper.TABLE_NAME, null, cv );
+        database.close();
+        if(rowid==-1){
+            Log.d("DBWrite", "Failure");
+            Toast.makeText(context, "Registration", Toast.LENGTH_SHORT).show();
+        }else{
+            Log.d("DBWrite", "Success");
+            Toast.makeText(context, "Registration Success", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+    }
+
+
+
+
+
     private void selectphoto(Context context){
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
 
@@ -70,7 +123,7 @@ public class registration extends AppCompatActivity {
                 case 0:
                     if (resultCode == RESULT_OK && data != null) {
                         Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
-                        upload.setImageBitmap(selectedImage);
+                        rmemupload.setImageBitmap(selectedImage);
                     }
                     break;
                 case 1:
@@ -86,14 +139,14 @@ public class registration extends AppCompatActivity {
 
                                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                                 String picturePath = cursor.getString(columnIndex);
-                                Bitmap bmp = null;
+
                                 try {
-                                    bmp = getBitmapFromUri(selectedImage);
+                                    rmembmp = getBitmapFromUri(selectedImage);
                                 } catch (IOException e) {
                                     // TODO Auto-generated catch block
                                     e.printStackTrace();
                                 }
-                                upload.setImageBitmap(bmp);
+                                rmemupload.setImageBitmap(rmembmp);
 //                                upload.setImageBitmap(BitmapFactory.decodeFile(picturePath));
                                 cursor.close();
                             }
