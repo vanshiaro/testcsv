@@ -46,7 +46,7 @@ public class DashBoard extends AppCompatActivity {
         File data = Environment.getDataDirectory();
         FileChannel source=null;
         FileChannel destination=null;
-        String currentDBPath = "/user/0/com.example.testcsv/databases/SmartHome";
+        String currentDBPath = "/user/0/com.example.testcsv/databases/SmartHome.db";
         String backupDBPath = "SmartHome";
         File currentDB = new File(data, currentDBPath);
         File backupDB = new File(sd, backupDBPath);

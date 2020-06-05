@@ -30,7 +30,7 @@ public class myDbHelper extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db) {
-        Log.d("DB LOC",context.getDatabasePath(DATABASE_NAME).toString());
+        Log.d("DB LOC",context.getDatabasePath(DATABASE_NAME).getAbsolutePath());
         try {
             db.execSQL(CREATE_TABLE);
         } catch (Exception e) {
